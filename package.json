@@ -6,6 +6,14 @@
     "localization": "lerna run --scope @starter-kit/shared-library build"
   },
   "devDependencies": {
-    "lerna": "3.16.4"
+    "lerna": "3.16.4",
+    "@microsoft/generator-sharepoint": "^1.18.0",
+    "gulp": "^4.0.2",
+    "localtunnel": "^2.0.2"
+  },
+  "scripts": {
+    "serve": "gulp serve --nobrowser",
+    "tunnel": "lt --port 4321 --subdomain=spstarterkit",
+    "start": "npm run serve & sleep 5 && npm run tunnel"
   }
 }
