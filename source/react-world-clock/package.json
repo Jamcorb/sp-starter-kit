@@ -9,7 +9,7 @@
   "scripts": {
     "build": "gulp bundle",
     "clean": "gulp clean",
-    "test": "gulp test"
+    "test": "gulp test",
     "serve": "gulp serve --nobrowser",
     "tunnel": "npx localtunnel --port 4321 --subdomain spstarterkit",
     "dev": "concurrently \"npm run serve\" \"npm run tunnel\""
