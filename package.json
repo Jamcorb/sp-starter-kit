@@ -1,10 +1,6 @@
 {
   "name": "root",
   "private": true,
-  "scripts": {
-    "initialize": "lerna bootstrap",
-    "localization": "lerna run --scope @starter-kit/shared-library build"
-  },
   "devDependencies": {
     "lerna": "3.16.4",
     "@microsoft/generator-sharepoint": "^1.18.0",
@@ -12,6 +8,8 @@
     "localtunnel": "^2.0.2"
   },
   "scripts": {
+    "initialize": "lerna bootstrap",
+    "localization": "lerna run --scope @starter-kit/shared-library build",
     "serve": "gulp serve --nobrowser",
     "tunnel": "lt --port 4321 --subdomain=spstarterkit",
     "start": "npm run serve & sleep 5 && npm run tunnel"
