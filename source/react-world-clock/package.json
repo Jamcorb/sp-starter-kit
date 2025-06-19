@@ -11,7 +11,7 @@
     "clean": "gulp clean",
     "test": "gulp test",
     "serve": "gulp serve --nobrowser --max-old-space-size=4096 --excludeTasks lint",
-    "tunnel": "npx ngrok http --region=eu --domain=relieved-caring-goat.ngrok-free.app 4321",
+    "tunnel": "ngrok http 4321",
     "dev": "concurrently \"npm run serve\" \"npm run tunnel\""
   },
   "dependencies": {
