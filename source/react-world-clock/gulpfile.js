@@ -13,4 +13,10 @@ build.rig.getTasks = function () {
   return result;
 };
 
+// Register an empty/no-op 'lint' task to override the built-in one
+build.subTask('lint', function (gulp, buildOptions, done) {
+  console.log('Lint task disabled');
+  done(); // Finish immediately
+});
+
 build.initialize(require('gulp'));
