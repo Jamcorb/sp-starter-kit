@@ -12,7 +12,7 @@
     "test": "gulp test",
     "serve": "gulp serve --nobrowser --max-old-space-size=4096 --excludeTasks lint",
     "tunnel": "npx localtunnel --port 4321 --subdomain spstarterkit",
-    "dev": "concurrently \"npm run serve\" \"npm run tunnel\"",
+    "dev": "concurrently \"npm run serve\" \"npm run tunnel\""
   },
   "dependencies": {
     "tslib": "2.3.1",
