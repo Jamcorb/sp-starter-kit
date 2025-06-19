@@ -12,5 +12,5 @@ build.rig.getTasks = function () {
 
   return result;
 };
-build.removeSubTask('lint');
+
 build.initialize(require('gulp'));
