@@ -11,7 +11,7 @@
     "clean": "gulp clean",
     "test": "gulp test",
     "serve": "gulp serve --nobrowser --max-old-space-size=4096 --excludeTasks lint",
-    "tunnel": "ngrok http 4321 --log=stdout --log-level debug",
+    "tunnel": "localtunnel --port 4321",
     "dev": "concurrently \"npm run serve\" \"npm run tunnel\""
   },
   "dependencies": {
