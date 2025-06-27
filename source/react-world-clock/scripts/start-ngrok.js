@@ -3,15 +3,14 @@ const fs = require('fs');
 
 console.log("🚀 Launching Ngrok...");
 
-const ngrok = spawn('npx', ['ngrok', 'http', '4321', '--log', 'stdout'], {
+const ngrok = spawn('npx', ['ngrok', 'http', '4321', '--log=stdout', '--config=none'], {
   env: { ...process.env, NGROK_ALLOW_INVALID_CERT: 'true' },
   stdio: ['pipe', 'pipe', 'pipe']
 });
 
-ngrok.stdout.setEncoding('utf8');
 ngrok.stdout.on('data', (data) => {
-  console.log('[ngrok stdout]', data); // <-- stream logs for debugging
-  const match = data.match(/https:\/\/[a-z0-9-]+\.ngrok-free\.app/);
+  const output = data.toString();
+  const match = output.match(/https:\/\/[a-z0-9-]+\.ngrok-free\.app/);
 
   if (match) {
     const ngrokUrl = match[0];
@@ -20,14 +19,15 @@ ngrok.stdout.on('data', (data) => {
 
     console.log('\n🌐 SPFx Manifest Workbench URL:\n' + workbenchUrl);
     fs.writeFileSync('.ngrok-url.txt', workbenchUrl);
+  } else {
+    console.log('[Waiting for ngrok tunnel to start...]');
   }
 });
 
-ngrok.stderr.setEncoding('utf8');
 ngrok.stderr.on('data', (data) => {
-  console.error('[ngrok stderr]', data);
+  console.error('[Ngrok Error]', data.toString());
 });
 
-ngrok.on('exit', (code) => {
-  console.log(`[ngrok exited with code ${code}]`);
+ngrok.on('close', (code) => {
+  console.log(`[Ngrok exited with code ${code}]`);
 });
