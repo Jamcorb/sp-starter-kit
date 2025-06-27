@@ -1,51 +1,29 @@
-const { spawn } = require('child_process');
 const fs = require('fs');
+const ngrok = require('ngrok');
 
-console.log('🚀 Launching Ngrok...');
+(async function () {
+  console.log('🚀 Hey Jimmy, Launching Ngrok tunnel to https://localhost:4321');
 
-const ngrok = spawn('npx', [
-  'ngrok',
-  'http',
-  '4321',
-  '--log', 'stdout'
-], {
-  env: {
-    ...process.env,
-    NGROK_ALLOW_INVALID_CERT: 'true'
-  },
-  stdio: ['pipe', 'pipe', 'pipe']
-});
+  try {
+    const url = await ngrok.connect({
+      addr: 4321,
+      allow_invalid_cert: true, // for self-signed SPFx cert
+      onStatusChange: status => console.log(`[ngrok status] ${status}`),
+    });
 
-console.log('[Waiting for ngrok tunnel to start...]');
-
-let buffer = '';
-
-ngrok.stdout.on('data', (data) => {
-  const output = data.toString();
-  buffer += output;
-
-  const match = buffer.match(/https:\/\/[a-z0-9-]+\.ngrok-free\.app/);
-  if (match) {
-    const ngrokUrl = match[0];
-    const manifestUrl = `${ngrokUrl}/temp/manifests.js`;
+    const manifestUrl = `${url}/temp/manifests.js`;
     const workbenchUrl = `https://cheffin.sharepoint.com/_layouts/15/workbench.aspx?debug=true&noredir=true&debugManifestsFile=${manifestUrl}`;
 
     console.log('\n🌐 SPFx Manifest Workbench URL:\n' + workbenchUrl);
+
     try {
       fs.writeFileSync('.ngrok-url.txt', workbenchUrl);
       console.log('[✔] URL written to .ngrok-url.txt');
     } catch (err) {
-      console.warn('[File write failed]', err.message);
+      console.warn('[✖] Failed to write file:', err.message);
     }
 
-    ngrok.stdout.removeAllListeners('data'); // Stop further output parsing
+  } catch (err) {
+    console.error('[✖] Failed to start ngrok:', err.message);
   }
-});
-
-ngrok.stderr.on('data', (data) => {
-  console.error('[Ngrok Error]', data.toString());
-});
-
-ngrok.on('close', (code) => {
-  console.log(`[Ngrok exited with code ${code}]`);
-});
+})();
