@@ -7,8 +7,7 @@ const ngrok = spawn('npx', [
   'ngrok',
   'http',
   '4321',
-  '--log', 'stdout',
-  '--config', 'none'
+  '--log', 'stdout'
 ], {
   env: {
     ...process.env,
@@ -39,7 +38,7 @@ ngrok.stdout.on('data', (data) => {
       console.warn('[File write failed]', err.message);
     }
 
-    ngrok.stdout.removeAllListeners('data'); // Stop processing after first match
+    ngrok.stdout.removeAllListeners('data'); // Stop further output parsing
   }
 });
 
